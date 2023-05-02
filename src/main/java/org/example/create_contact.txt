@@ -1,0 +1,36 @@
+
+    -- Table: public.contract
+
+    -- DROP TABLE IF EXISTS public.contract;
+
+    INSERT INTO public.contract(
+    	id, date_start, date_end, date_send, contract_number, contract_name, client_api, contractual_parties)
+    	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+
+    CREATE TABLE IF NOT EXISTS public.contract
+    (
+        id uuid NOT NULL,
+        date_start date,
+        date_end date,
+        date_send timestamp without time zone,
+        date_create timestamp without time zone DEFAULT now(),
+        contract_number bigint,
+        contract_name character(1000) COLLATE pg_catalog."default",
+        client_api character(10) COLLATE pg_catalog."default",
+        contractual_parties jsonb,
+        CONSTRAINT contract_pkey PRIMARY KEY (id)
+    )
+
+    TABLESPACE pg_default;
+
+    ALTER TABLE IF EXISTS public.contract
+        OWNER to postgres;
+    -- Index: ind_contract_number
+
+    -- DROP INDEX IF EXISTS public.ind_contract_number;
+
+    CREATE INDEX IF NOT EXISTS ind_contract_number
+        ON public.contract USING btree
+        (contract_number ASC NULLS LAST)
+        TABLESPACE pg_default;
