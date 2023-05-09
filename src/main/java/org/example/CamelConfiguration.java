@@ -1,10 +1,13 @@
 package org.example;
 
 import com.rabbitmq.client.ConnectionFactory;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+
+import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -33,5 +36,15 @@ public class CamelConfiguration {
         factory.setUsername(username);
         factory.setPassword(pass);
         return factory;
+    }
+
+    @Bean
+    private DataSource setupDataSource(String connectURI) {
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setUsername("root");
+        ds.setPassword("1234");
+        ds.setUrl(connectURI);
+        return ds;
     }
 }
