@@ -23,7 +23,7 @@ public class ContractRoute extends RouteBuilder {
                 .unmarshal()
                 .json(JsonLibrary.Jackson)
                 .process(this::getDTO)
-                .to("jdbc");
+                .to("jdbc:postgresql://localhost:5432/messages");
     }
 
     private void getDTO(Exchange exchange) throws JsonProcessingException {
